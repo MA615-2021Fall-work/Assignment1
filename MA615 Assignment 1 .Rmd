@@ -1,0 +1,81 @@
+---
+title: "MA615 Assignment 1 carviz"
+author: "Chen Xu U49903384"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+call built-in data mtcars.
+
+```{r}
+library(tidyverse)
+data(mtcars)
+```
+
+Select only car models where mpg<20.
+
+```{r}
+mtcars_mpg2 <- mtcars[mtcars$mpg < 20,]
+```
+
+Reduce the variables to mpg, cyl, disp, hp, gears
+
+```{r}
+mtcars_mpg2 <- mtcars_mpg2[, c(1,2,3,4,10)]
+```
+
+read the R file hand_functions.R so that it can be used
+notice that with echo = TRUE
+
+```{r}
+source(file = "hand_functions.R", echo = TRUE)
+```
+
+
+Now use the function from hand_functions.R
+
+
+```{r}
+sp_out <- sum_special(mtcars_mpg2)
+```
+
+
+```{r}
+#library(esquisse)
+#esquisser(data = mtcars_mpg2, viewer = "dialog")
+```
+
+
+```{r}
+ggplot(mtcars_mpg2) +
+  aes(x = disp, y = mpg) +
+  geom_point(shape = "bullet", size = 4L, colour = "#B22222") +
+  geom_smooth(span = 0.5) +
+  theme_minimal()
+```
+
+# note that this boxplot cannot be made with esquisser() unless
+# the data is adjusted.  What adjustment is needed?
+
+We can adjust the cyl to factors so that we can use esquisser() to make boxpolot.
+
+```{r}
+mtcars_mpg3 <- mtcars_mpg2
+mtcars_mpg3$cyl <- as.factor(mtcars_mpg3$cyl)
+#esquisser(data = mtcars_mpg3, viewer = "dialog")
+```
+
+
+
+```{r}
+ggplot(mtcars_mpg2, aes(x=as.factor(cyl), y=mpg)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2) + 
+  xlab("cyl")
+```
+
+What I learn from this exploration is how to use github create organization and repositery to back up my works. Besides, I learn a function called esquisser(). We can use this addin to interactively explore the data by visualizing it with the ggplot2 package. It allows us to draw bar plots, curves, scatter plots, histograms, boxplot and sf objects, then export the graph or retrieve the code to reproduce the graph. And we have to make variables to be all factors in order to use esquisser() draw boxplot.
+
+
